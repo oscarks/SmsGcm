@@ -1,0 +1,6 @@
+SMS GCM Client
+------------
+This Android App is the client side of SMSGCM project. It self register in Google Cloud Message for Android using the android google account and passing the google API project ID.
+
+The server side, a Grails plugin, send by GCM the target cell number and message. The client use the phone infrastructure to send SMS to target phone. 
+
