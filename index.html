@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>SMS Google Cloud Message</title></head><body>
+<h1>SMS Google Cloud Message</h1>
+<br>
+The SMS GCM Project&nbsp; permit&nbsp; to send&nbsp; SMS from a grails
+web app&nbsp; using a android device with SMS facility. It is composed
+of two modules, a server (web) where the messages are generated and a
+android aplication client, responsible for sending the SMS.&nbsp; The
+applications use the Google Cloud Message for Android to communicate
+with each other.<br>
+<br>
+<br>
+<h2>Modules</h2>
+- SmsGcmServer plugin - a grails plugin, implements the server side.
+The mechanism for sending SMS is implemented in a service and also
+provides a basic interface for sending messages.<br>
+- SmsGcmAndroClient - a android application.<br>
+<br>
+<h2>Steps to use</h2>
+<h3>1 - Create a Google API Project and enable the GCM service</h3>
+To use the SMS GCM you need first create a Google API project. Visit the <a href="http://developer.android.com/guide/google/gcm/index.html">GCM site</a> to know how do it (<a href="http://developer.android.com/guide/google/gcm/gs.html">Getting Started</a>).
+There you will also find the information on what is the GCM is and how
+it works. Is very important to create a server API Key, you will need
+it to configure the server. Anotate the project id, you will use it to
+configure the client side.<br>
+<br>
+After you have created a project Google API, enabled the GCM service and created an API key, let's configure the projects:<br>
+<h3>2 - Server Configuration</h3>
+The server is a grails web application. First all you need to create a
+grails application and install the SmsGcmServer plugin. See <a href="http://grails.org/Quick%20Start">Grails Quick Start </a>guide to know how to create a grails project. <br>
+To plugin install you have several options. For more information go to <a href="http://grails.org/doc/latest/guide">Grails documentation site</a>. <br>
+To configure the server is necessary to setup the key api in the
+config.groovy file. Open the config.groovy file (in conf directory) and
+add the line below:<br>
+<br>
+<pre>google.api.key='XXXXXXXXXXXXXXXX'</pre>
+<br>
+where <span style="font-weight: bold;">XXXXXXXXXXXXXXXX</span> is the key generated in the step 1.<br>
+<br>
+3 - Client Configuration<br>
+In the client project, edit <br>
+
+
+</body></html>
