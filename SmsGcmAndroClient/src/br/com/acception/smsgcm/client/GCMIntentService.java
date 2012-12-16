@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Google Inc.
+ * Copyright 2012 Acception.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * Code parcialy based in the GCM Demo from Google
  */
 package br.com.acception.smsgcm.client;
 
@@ -69,11 +71,11 @@ public class GCMIntentService extends GCMBaseIntentService {
     @Override
     protected void onMessage(Context context, Intent intent) {
         Log.i(TAG, "Received message");
-//        String message = getString(R.string.gcm_message);
+        int id = intent.getIntExtra("id",-1);
         String cellPhone = intent.getStringExtra("cell");
         String message = intent.getStringExtra("message");
         
-        sendSMS(cellPhone,message);
+        sendSMS(id,cellPhone,message);
         
         String dmessage="Send message to "+cellPhone+ "("+message.length()+" chars)";
         displayMessage(context, dmessage);
@@ -126,8 +128,9 @@ public class GCMIntentService extends GCMBaseIntentService {
         notificationManager.notify(0, notification);
     }
     
-    private void sendSMS(String phoneNumber, String message)
+    private void sendSMS(final int id, final String phoneNumber, final String message)
     {        
+    	/*
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
  
@@ -146,22 +149,27 @@ public class GCMIntentService extends GCMBaseIntentService {
                     case Activity.RESULT_OK:
                         Toast.makeText(getBaseContext(), "SMS sent", 
                                 Toast.LENGTH_SHORT).show();
+                        notifySend(id,Activity.RESULT_OK,"SMS sent");
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         Toast.makeText(getBaseContext(), "Generic failure", 
                                 Toast.LENGTH_SHORT).show();
+                        notifySend(id,SmsManager.RESULT_ERROR_GENERIC_FAILURE,"Generic failure");
                         break;
                     case SmsManager.RESULT_ERROR_NO_SERVICE:
                         Toast.makeText(getBaseContext(), "No service", 
                                 Toast.LENGTH_SHORT).show();
+                        notifySend(id,SmsManager.RESULT_ERROR_NO_SERVICE,"No service");
                         break;
                     case SmsManager.RESULT_ERROR_NULL_PDU:
                         Toast.makeText(getBaseContext(), "Null PDU", 
                                 Toast.LENGTH_SHORT).show();
+                        notifySend(id,SmsManager.RESULT_ERROR_NULL_PDU,"Null PDU");
                         break;
                     case SmsManager.RESULT_ERROR_RADIO_OFF:
                         Toast.makeText(getBaseContext(), "Radio off", 
                                 Toast.LENGTH_SHORT).show();
+                        notifySend(id,SmsManager.RESULT_ERROR_RADIO_OFF,"Radio off");
                         break;
                 }
             }
@@ -176,16 +184,27 @@ public class GCMIntentService extends GCMBaseIntentService {
                     case Activity.RESULT_OK:
                         Toast.makeText(getBaseContext(), "SMS delivered", 
                                 Toast.LENGTH_SHORT).show();
+                        notifyDelivery(id,Activity.RESULT_OK,"SMS delivered");
                         break;
                     case Activity.RESULT_CANCELED:
                         Toast.makeText(getBaseContext(), "SMS not delivered", 
                                 Toast.LENGTH_SHORT).show();
+                        notifyDelivery(id,Activity.RESULT_CANCELED,"SMS not delivered");
                         break;                        
                 }
             }
         }, new IntentFilter(DELIVERED));        
- 
+    	 */
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);        
+//        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);        
+        sms.sendTextMessage(phoneNumber, null, message, null, null);        
+    }
+    
+    private void notifySend(int id,int code, String message) {
+    	ServerUtilities.notifySend(getBaseContext(), id, code, message);
+    }
+    
+    private void notifyDelivery(int id, int code, String message) {
+    	ServerUtilities.notifyDelivery(getBaseContext(), id, code,message);
     }
 }

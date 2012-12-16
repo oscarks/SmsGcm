@@ -120,7 +120,38 @@ public final class ServerUtilities {
             CommonUtilities.displayMessage(context, message);
         }
     }
-
+    static void notifySend(final Context context,int id,int code,String msg) {
+        Log.i(TAG, "Notify send  (id = " + id + ") => "+code);
+        String serverUrl = SERVER_URL + "/notifySend/"+id+" : "+msg;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("code", String.valueOf(code));
+        params.put("message", msg);
+        try {
+            post(serverUrl, params);
+            String message = context.getString(R.string.notify_send);
+            CommonUtilities.displayMessage(context, message);
+        } catch (IOException e) {
+            String message = context.getString(R.string.notify_error,
+                    e.getMessage());
+            CommonUtilities.displayMessage(context, message);
+        }
+    }
+    static void notifyDelivery(final Context context,int id,int code, String msg) {
+        Log.i(TAG, "Notify delivery  (id = " + id + ") => "+code+" : "+msg);
+        String serverUrl = SERVER_URL + "/notifyDelivery/"+id;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("code", String.valueOf(code));
+        params.put("message", msg);
+        try {
+            post(serverUrl, params);
+            String message = context.getString(R.string.notify_delivery);
+            CommonUtilities.displayMessage(context, message);
+        } catch (IOException e) {
+            String message = context.getString(R.string.notify_error,
+                    e.getMessage());
+            CommonUtilities.displayMessage(context, message);
+        }
+    }    
     /**
      * Issue a POST request to the server.
      *
