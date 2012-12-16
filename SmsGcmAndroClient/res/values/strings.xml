@@ -34,5 +34,7 @@
     <string name="options_unregister">Unregister</string>
     <string name="options_clear">Clear</string>
     <string name="options_exit">Exit</string>
-
+	<string name="notify_send">Notifing send to server</string>
+	<string name="notify_delivery">Notifing delivery to server</string>
+	<string name="notify_error">Notifing delivery to server</string>
 </resources>
